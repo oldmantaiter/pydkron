@@ -1,0 +1,6 @@
+requests
+requests_mock
+coverage
+urllib3
+chardet
+six
