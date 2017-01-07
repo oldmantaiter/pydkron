@@ -20,6 +20,8 @@ JOB_VALID_FIELDS = [
     "retries",
     "dependent_jobs",
     "parent_job",
+    "processors",
+    "concurrency"
 ]
 
 JOB_READ_ONLY_FIELDS = [
