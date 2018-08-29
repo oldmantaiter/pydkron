@@ -17,7 +17,7 @@ python setup.py install
 ## Usage Examples
 
 ```python
-from pydkron import DkronClient
+from pydkron.client import DkronClient
 
 # Return all the configured jobs
 client = DkronClient(hosts=["dkron01:8080", "dkron02:8080"])
