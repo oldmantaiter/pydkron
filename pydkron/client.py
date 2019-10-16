@@ -79,6 +79,13 @@ class DkronClient(object):
         data = self._call(_GET, "/jobs").json()
         return [DkronJob.from_dict(job_data, self) for job_data in data]
 
+    def leader(self):
+        """
+        Returns the current cluster leader
+        """
+        data = self._call(_GET, "/leader").json()
+        return data
+
 
     def get_job(self, name):
         """
