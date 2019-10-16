@@ -93,7 +93,7 @@ class DkronClient(object):
         """
         Toggles a job by name
         """
-        resp = self._call(_GET, "/jobs/%s/toggle" % name)
+        resp = self._call(_POST, "/jobs/%s/toggle" % name)
         if resp.status_code == 404:
             raise DkronJobNotFound("Job %s was not found" % name)
         return resp.json()
