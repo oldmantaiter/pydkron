@@ -87,6 +87,14 @@ class DkronClient(object):
         return data
 
 
+    def members(self):
+        """
+        Returns the members list of the cluster
+        """
+        data = self._call(_GET, "/members").json()
+        return data
+
+
     def get_job(self, name):
         """
         Return a job by name
