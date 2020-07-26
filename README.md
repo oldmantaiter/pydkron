@@ -7,7 +7,11 @@
 requests
 
 ## Installing
-
+### Pip
+```
+pip install pydkron
+```
+### Manually
 ```
 git clone https://github.com/oldmantaiter/pydkron
 cd pydkron

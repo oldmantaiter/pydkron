@@ -13,6 +13,7 @@ with open(os.path.join(os.path.dirname(__file__), 'pydkron', '__init__.py')) as 
 
 INSTALL_REQUIRES = [
     'requests',
+    'six'
 ]
 
 setup(
@@ -23,8 +24,16 @@ setup(
     author='Tait Clarridge',
     author_email='tait@clarridge.ca',
     url='https://github.com/oldmantaiter/pydkron',
+    download_url='https://github.com/oldmantaiter/pydkron/archive/'+VERSION+'.tar.gz',
     license='MIT License',
     packages=find_packages(exclude=['test']),
     include_package_data=True,
     install_requires=INSTALL_REQUIRES,
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Build Tools',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3'
+    ]
 )
