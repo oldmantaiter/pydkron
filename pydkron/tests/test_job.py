@@ -73,7 +73,7 @@ class DkronJobTestCase(unittest.TestCase):
             exp = "[]"
             mocker.register_uri(
                 requests_mock.GET,
-                "http://localhost:8080/v1/executions/job1",
+                "http://localhost:8080/v1/jobs/job1/executions/",
                 text=exp,
                 status_code=200,
             )
