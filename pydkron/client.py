@@ -128,7 +128,25 @@ class DkronClient(object):
         """
         Get the job executions for a named job
         """
-        resp = self._call(_GET, "/executions/%s" % name)
+        resp = self._call(_GET, "/jobs/%s/executions/" % name)
         if resp.status_code == 404:
             raise DkronJobNotFound("Job %s was not found" % name)
         return resp.json()
+
+    def toggle(self, name):
+        '''
+        Enable/disable a job
+
+        Arguments:
+            name {string} -- the name of job
+
+        Raises:
+            DkronJobNotFound -- raise if the job not exists
+
+        Returns:
+            DkronJob -- a job of Dkron
+        '''
+        resp = self._call(_POST, "/jobs/%s/toggle" % name)
+        if resp.status_code == 404:
+            raise DkronJobNotFound("Job %s was not found" % name)
+        return DkronJob.from_dict(resp.json(), self)

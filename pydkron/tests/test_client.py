@@ -253,7 +253,7 @@ class DkronClientTestCase(unittest.TestCase):
             exp = "[]"
             mocker.register_uri(
                 requests_mock.GET,
-                "http://localhost:8080/v1/executions/job1",
+                "http://localhost:8080/v1/jobs/job1/executions/",
                 text=exp,
                 status_code=200,
             )
@@ -271,7 +271,74 @@ class DkronClientTestCase(unittest.TestCase):
         with requests_mock.Mocker() as mocker:
             mocker.register_uri(
                 requests_mock.GET,
-                "http://localhost:8080/v1/executions/job1",
+                "http://localhost:8080/v1/jobs/job1/executions/",
                 status_code=404,
             )
             self.assertRaises(DkronJobNotFound, self.client.get_executions, "job1")
+
+    def test_toggle(self):
+        """
+        DkronClient: Test toggle
+        """
+        data = {
+            "name": "job1",
+            "displayname": "string",
+            "schedule": "@every 10s",
+            "timezone": "Europe/Berlin",
+            "owner": "Platform Team",
+            "owner_email": "platform@example.com",
+            "success_count": 0,
+            "error_count": 0,
+            "last_success": "2020-07-26T01:44:06.459Z",
+            "last_error": "2020-07-26T01:44:06.459Z",
+            "disabled": True,
+            "tags": {
+                "server": "true"
+            },
+            "metadata": {
+                "office": "Barcelona"
+            },
+            "retries": 2,
+            "parent_job": "parent_job",
+            "dependent_jobs": [
+                "dependent_job"
+            ],
+            "processors": {
+                "files": {
+                    "forward": True
+                }
+            },
+            "concurrency": "allow",
+            "executor": "shell",
+            "executor_config": {
+                "command": "echo 'Hello from Dkron'"
+            },
+            "status": "success"
+        }
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri(
+                requests_mock.POST,
+                "http://localhost:8080/v1/jobs/job1/toggle",
+                text=json.dumps(data),
+                status_code=200,
+            )
+            job = self.client.toggle("job1")
+            exp = data["name"]
+            got = job.name
+            self.assertEqual(
+                got,
+                exp,
+                "Incorrect job command, exp: '%s' got '%s'" % (exp, got)
+            )
+
+    def test_toggle_not_found(self):
+        """
+        DkronClient: Test toggle DkronJobNotFound exception
+        """
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri(
+                requests_mock.POST,
+                "http://localhost:8080/v1/jobs/job1/toggle",
+                status_code=404,
+            )
+            self.assertRaises(DkronJobNotFound, self.client.toggle, "job1")
