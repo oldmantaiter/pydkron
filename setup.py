@@ -1,3 +1,4 @@
+import pathlib
 import os
 import re
 import sys
@@ -16,10 +17,16 @@ INSTALL_REQUIRES = [
     'six'
 ]
 
+HERE = pathlib.Path(__file__).parent
+
+README = (HERE / "README.md").read_text()
+
 setup(
     name='pydkron',
     version=VERSION,
     description='pydkron: Python Client for Dkron',
+    long_description=README,
+    long_description_content_type="text/markdown",
     keywords='dkron',
     author='Tait Clarridge',
     author_email='tait@clarridge.ca',
