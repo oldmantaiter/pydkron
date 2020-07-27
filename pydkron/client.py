@@ -79,6 +79,21 @@ class DkronClient(object):
         data = self._call(_GET, "/jobs").json()
         return [DkronJob.from_dict(job_data, self) for job_data in data]
 
+    def leader(self):
+        """
+        Returns the current cluster leader
+        """
+        data = self._call(_GET, "/leader").json()
+        return data
+
+
+    def members(self):
+        """
+        Returns the members list of the cluster
+        """
+        data = self._call(_GET, "/members").json()
+        return data
+
 
     def get_job(self, name):
         """
@@ -88,6 +103,15 @@ class DkronClient(object):
         if resp.status_code == 404:
             raise DkronJobNotFound("Job %s was not found" % name)
         return DkronJob.from_dict(resp.json(), self)
+
+    def toggle_job(self, name):
+        """
+        Toggles a job by name
+        """
+        resp = self._call(_POST, "/jobs/%s/toggle" % name)
+        if resp.status_code == 404:
+            raise DkronJobNotFound("Job %s was not found" % name)
+        return resp.json()
 
     def save_job(self, job):
         """
